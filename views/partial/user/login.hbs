@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="container">
+            <h1>Login</h1>
+            
+            <form action="/login" method="post">
+            {{#if loginErr}}
+            <p class="error">{{loginErr}}</p>
+            {{/if}}
+                <label>Email address</label>
+                <input type="email" class="form-control" name="Email" placeholder="Enter Email">
+                <br>
+                <label>Password</label>
+                <input type="Password" class="form-control" name="Password" placeholder="Password">
+                <br>
+                <a href="/signup">Creat a new account </a>
+                <button type="submit" class="btn btn-primary float-right">login</button>
+            </form>
+            
+
+        </div>
+    </div>
+</div>

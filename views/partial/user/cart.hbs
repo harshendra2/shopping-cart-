@@ -1,0 +1,77 @@
+
+<section>
+    <div class="container">
+        <div class="row">
+
+        
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Title</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    {{#each chart}}
+  <tr>
+    
+    <td><img style="width: 70px;height: 70px;" src="/product-images/{{this.product._id}}.jpg"></td>
+    <td>{{this.product.Name}}</td>
+    <td>{{this.product.Price}}</td>
+    
+    <td>
+      
+        <button class="cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)" >-</button>
+        <span id="{{this.product._id}}">{{this.quantity}}</span>
+        <button class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+    </td>
+    <td>
+    <a href="/partial/user/remove-products/{{this._proId}}" class="btn btn-danger">Remove</a>
+    </td>
+  </tr>
+  
+{{/each}}
+  </tbody>
+    </table>
+    <hr>
+    <h3 class="float-left mr-6">Total: Rs.<span id="total">{{totalValue}}</span></h3>
+    <a href="/place-order" class="btn btn-success mt-3" style="width:100% ;">place Order</a>
+  
+  
+  </section>
+  
+  
+  
+  <script>
+    function changeQuantity(cartId,proId,userId,count){
+      let quantity=parseInt(document.getElementById(proId).innerHTML)
+      count=parseInt(count)//this is used to count to convert
+      console.log(userId)
+      $.ajax({
+        url:'/change-product-quantity',
+        data:{
+          user:userId,
+          cart:cartId,
+          product:proId,
+          count:count,
+          quantity:quantity
+        },
+        method:'post',
+        success:(response)=>{
+          if(response.removeProduct){
+          alert("Product remove from cart")
+          location.reload
+        }else{
+          console.log(response)
+          document.getElementById(proId).innerHTML=quantity+count
+          document.getElementById('total').innerHTML=response.total
+
+        }
+        }
+
+      })
+    }
+  </script>
